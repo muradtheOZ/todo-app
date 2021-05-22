@@ -8,53 +8,83 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from "expo-app-loading";
 
 export default function App() {
-  const [ready,setReady] = useState(false);
-  const initialTodos = [
-    { text: 'Make the Basic UI', key: '1' },
-    { text: 'Add CRUD operation', key: '2' },
-    { text: 'Add Local storage', key: '3' }
-  ]
+  const [ready, setReady] = useState(false);
+  const initialTodos = []
   const [todos, setTodos] = useState(initialTodos);
+
   const doneHandler = (key) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter(todo => todo.key != key);
-    });
+    const newTodos = todos.filter(todo=>todo.key != key)
+    const jsonValue = JSON.stringify(newTodos)
+    AsyncStorage.setItem('storedToDos', jsonValue)
+    .then(()=>{
+      setTodos(newTodos);
+    })
+    
+    // setTodos((prevTodos) => {
+    //   return prevTodos.filter(todo => todo.key != key);
+    // });
   };
   const submitHandler = (text) => {
-    setTodos((prevTodos) => {
-      return  [
-        {
-          text: text,
-          key: Date.now().toString(36) + Math.random().toString(36).substr(2)
-        },
+    const newTodos = [{
+      text: text,
+      key: Date.now().toString(36) + Math.random().toString(36).substr(2)
+    }
+    ]
+    const finalTodos =[...newTodos,...todos];
+    const jsonValue = JSON.stringify(finalTodos)
+    AsyncStorage.setItem('storedToDos', jsonValue)
+    .then(()=>{
+      setTodos(finalTodos);
+    })
 
-        ...prevTodos
-      ];
-      
-
-    });
+ 
 
   };
-return (
-  <View style={styles.container}>
-    <Header />
 
-    <View style={styles.mainContent}>
-      <AddTodos submitHandler={submitHandler} />
+  //loading data 
+  const loadTodos = () => {
+    AsyncStorage.getItem('storedToDos')
+      .then(data => {
+        if (data !== null) {
+          setTodos(JSON.parse(data))
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
-      <View style={styles.listContent}>
-        <FlatList
-          data={todos}
-          renderItem={({ item }) => (
-            <Todos item={item} doneHandler={doneHandler} />
-          )}
-        />
+  if (!ready) {
+    return (
+      <AppLoading
+        startAsync={loadTodos}
+        onFinish={() => setReady(true)}
+        onError={console.warn}
+
+      />
+    )
+  }
+
+
+  return (
+    <View style={styles.container}>
+      <Header />
+      <View style={styles.mainContent}>
+        <AddTodos submitHandler={submitHandler} />
+
+        <View style={styles.listContent}>
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => (
+              <Todos item={item} setTodos={setTodos} doneHandler={doneHandler} />
+            )}
+          />
+
+        </View>
 
       </View>
-
     </View>
-  </View>
-);
+  );
 }
 
 const styles = StyleSheet.create({
