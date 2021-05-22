@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import AddTodos from './Components/AddTodos/AddTodos';
 import Header from './Components/Header/Header';
 import Todos from './Components/Todos/Todos';
 
@@ -10,37 +11,53 @@ export default function App() {
     { text: 'Add CRUD operation', key: '2' },
     { text: 'Add Local storage', key: '3' }
   ]);
-  const doneHandler = (key) =>{
-    setTodos((prevTodos)=>{
+  const doneHandler = (key) => {
+    setTodos((prevTodos) => {
       return prevTodos.filter(todo => todo.key != key);
-    })
-  }
-  return (
-    <View style={styles.container}>
-      <Header/>
+    });
+  };
+  const submitHandler = (text) => {
+    setTodos((prevTodos) => {
+      return  [
+        {
+          text: text,
+          key: Date.now().toString(36) + Math.random().toString(36).substr(2)
+        },
 
-      <View style={styles.mainContent}>
+        ...prevTodos
+      ];
+      
 
-        <View style={styles.listContent}>
-          <FlatList
-            data={todos}
-            renderItem={({ item }) => (
-              <Todos item ={item} doneHandler={doneHandler} />
-            )}
-          />
+    });
 
-        </View>
+  };
+return (
+  <View style={styles.container}>
+    <Header />
+
+    <View style={styles.mainContent}>
+      <AddTodos submitHandler={submitHandler} />
+
+      <View style={styles.listContent}>
+        <FlatList
+          data={todos}
+          renderItem={({ item }) => (
+            <Todos item={item} doneHandler={doneHandler} />
+          )}
+        />
 
       </View>
+
     </View>
-  );
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    
+
   },
   mainContent: {
     padding: 40,
