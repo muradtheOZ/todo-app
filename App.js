@@ -10,6 +10,11 @@ export default function App() {
     { text: 'Add CRUD operation', key: '2' },
     { text: 'Add Local storage', key: '3' }
   ]);
+  const doneHandler = (key) =>{
+    setTodos((prevTodos)=>{
+      return prevTodos.filter(todo => todo.key != key);
+    })
+  }
   return (
     <View style={styles.container}>
       <Header/>
@@ -20,7 +25,7 @@ export default function App() {
           <FlatList
             data={todos}
             renderItem={({ item }) => (
-              <Todos item ={item}/>
+              <Todos item ={item} doneHandler={doneHandler} />
             )}
           />
 
