@@ -1,11 +1,14 @@
 import React from 'react';
 import { Text, View,StyleSheet,TouchableOpacity } from 'react-native';
 
-const Completed = ({item,deleteHandler}) => (
-    <TouchableOpacity onPress={()=>deleteHandler(item.key) }>
-    <Text style = {styles.list}>{item.text}</Text>
-</TouchableOpacity>
-);
+const Completed = ({item,deleteHandler}) =>{
+    return  (
+        <TouchableOpacity onPress={()=>deleteHandler(item.key) }>
+        <Text style = {styles.list}>{item.text}</Text>
+    </TouchableOpacity>
+    );
+
+}
 
 const styles = StyleSheet.create({
     list: {

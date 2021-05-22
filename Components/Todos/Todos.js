@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View,StyleSheet,TouchableOpacity } from 'react-native';
 
 const Todos = ({item,doneHandler,setTodos}) => {
-    console.log(item.key);
+
 
     return (
         <TouchableOpacity onPress={()=>doneHandler(item.key) }>
