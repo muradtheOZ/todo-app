@@ -7,8 +7,8 @@ const Header = () => {
         <View style={styles.header}>
             <Text style ={styles.title}>My To-dos</Text>
         </View>
-    )
-};
+    );
+}
 const styles = StyleSheet.create({
     header:{
         paddingLeft:10,
