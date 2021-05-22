@@ -4,13 +4,17 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import AddTodos from './Components/AddTodos/AddTodos';
 import Header from './Components/Header/Header';
 import Todos from './Components/Todos/Todos';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppLoading from "expo-app-loading";
 
 export default function App() {
-  const [todos, setTodos] = useState([
+  const [ready,setReady] = useState(false);
+  const initialTodos = [
     { text: 'Make the Basic UI', key: '1' },
     { text: 'Add CRUD operation', key: '2' },
     { text: 'Add Local storage', key: '3' }
-  ]);
+  ]
+  const [todos, setTodos] = useState(initialTodos);
   const doneHandler = (key) => {
     setTodos((prevTodos) => {
       return prevTodos.filter(todo => todo.key != key);
