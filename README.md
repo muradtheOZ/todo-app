@@ -5,5 +5,5 @@ ___
 ### Features 
 - add your new todo
 - delete todo
-- make todo completed
+- mark todo as completed
 
