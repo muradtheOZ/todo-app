@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Alert, View } from 'react-native';
 import AddTodos from './Components/AddTodos/AddTodos';
 import Header from './Components/Header/Header';
 import Todos from './Components/Todos/Todos';
@@ -25,19 +25,32 @@ export default function App() {
     // });
   };
   const submitHandler = (text) => {
-    const newTodos = [{
-      text: text,
-      key: Date.now().toString(36) + Math.random().toString(36).substr(2)
+    if(text.length > 4){
+      const newTodos = [{
+        text: text,
+        key: Date.now().toString(36) + Math.random().toString(36).substr(2)
+      }
+      ]
+      const finalTodos =[...newTodos,...todos];
+      const jsonValue = JSON.stringify(finalTodos)
+      AsyncStorage.setItem('storedToDos', jsonValue)
+      .then(()=>{
+        setTodos(finalTodos);
+      })
     }
-    ]
-    const finalTodos =[...newTodos,...todos];
-    const jsonValue = JSON.stringify(finalTodos)
-    AsyncStorage.setItem('storedToDos', jsonValue)
-    .then(()=>{
-      setTodos(finalTodos);
-    })
-
- 
+    else{
+      Alert.alert(
+        "Sorry!",
+        "Todo must have more than 4 character",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
 
   };
 

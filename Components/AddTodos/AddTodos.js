@@ -13,7 +13,7 @@ const AddTodos = ({submitHandler}) => {
                 placeholder="Add todo..."
                 onChangeText={changeHandler}
             />
-            <Button onPress={() =>submitHandler(text)} title='Add todo' color='tomato' />
+            <Button onPress={() =>submitHandler(text)} title='Add todo' color='#3450A1' />
         </View>
     );
 }
