@@ -13,16 +13,30 @@ export default function App() {
   const [todos, setTodos] = useState(initialTodos);
 
   const doneHandler = (key) => {
-    const newTodos = todos.filter(todo=>todo.key != key)
-    const jsonValue = JSON.stringify(newTodos)
-    AsyncStorage.setItem('storedToDos', jsonValue)
-    .then(()=>{
-      setTodos(newTodos);
-    })
+    Alert.alert(
+      "Chose Option",
+      "Mark Done delete or Update.You have to chose one",
+      [
+        {
+          text: "Delete",
+          onPress: () => {
+            const newTodos = todos.filter(todo=>todo.key != key)
+            const jsonValue = JSON.stringify(newTodos)
+            AsyncStorage.setItem('storedToDos', jsonValue)
+            .then(()=>{
+              setTodos(newTodos);
+            })
+          }
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
     
-    // setTodos((prevTodos) => {
-    //   return prevTodos.filter(todo => todo.key != key);
-    // });
   };
   const submitHandler = (text) => {
     if(text.length > 4){
