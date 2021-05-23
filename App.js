@@ -28,9 +28,22 @@ export default function App() {
     setVisible(false);
   };
 
-  const handleDelete = () => {
-    // The user has pressed the "Delete" button, so here you can do your own logic.
-    // ...Your logic
+  const handleUpdate = () => {
+    const editedToDos = {
+      text: text,
+      key: clickedKey
+    }
+    
+
+    const newTodos = [...todos]
+    const todoIndex = todos.findIndex((todo) => todo.key === clickedKey)
+    newTodos.splice(todoIndex, 1,editedToDos);
+    setTodos(newTodos);
+    const jsonValue = JSON.stringify(newTodos)
+            AsyncStorage.setItem('storedToDos', jsonValue)
+              .then(() => {
+                setTodos(newTodos);
+              })
     setVisible(false);
   };
 
@@ -168,7 +181,7 @@ export default function App() {
               value ={text}
             ></TextInput>
             <Dialog.Button label="Cancel" onPress={handleCancel} />
-            <Dialog.Button label="Delete" onPress={handleDelete} />
+            <Dialog.Button label="Update" onPress={handleUpdate} />
           </Dialog.Container>
 
         <View style={styles.listContent}>
