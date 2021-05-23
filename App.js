@@ -10,16 +10,27 @@ import Completed from './Components/Completed/Completed';
 import Dialog from "react-native-dialog";
 
 export default function App() {
+  //declaring all of the state
+  
+  //Check for data load
   const [ready, setReady] = useState(false);
+
+  //Main Todo list state 
   const initialTodos = []
   const [todos, setTodos] = useState(initialTodos);
+
+  //Completed Todo list state
   const [completed, setCompleted] = useState([]);
+
+  // set info for update todo
   const[text,setText] = useState("");
   const[clickedKey, setClickedKey] = useState("")
 
-  //update Modal option
+  // updated modal state
   const [visible, setVisible] = useState(false);
 
+
+  //update Modal functionalities for update a todo
   const showDialog = () => {
     setVisible(true);
   };
@@ -29,12 +40,13 @@ export default function App() {
   };
 
   const handleUpdate = () => {
+    //added updated todo in a object
     const editedToDos = {
       text: text,
       key: clickedKey
     }
-    
-
+  
+    //finding the updated todo index and insert the updated value in normal stage and local storage
     const newTodos = [...todos]
     const todoIndex = todos.findIndex((todo) => todo.key === clickedKey)
     newTodos.splice(todoIndex, 1,editedToDos);
@@ -47,6 +59,7 @@ export default function App() {
     setVisible(false);
   };
 
+  // Implemented delete handler by filtering with key value
   const deleteHandler = (key) => {
     const newComplete = completed.filter(todo => todo.key != key)
     const completeJasonValue = JSON.stringify(newComplete)
@@ -56,7 +69,9 @@ export default function App() {
       })
   }
 
-  const doneHandler = (item) => {
+
+//Here with alert button selection delete, complete and, update implemented
+  const ManagePartOfCrud = (item) => {
     Alert.alert(
       "Chose Option",
       "Mark Done delete or Update.You have to chose one",
@@ -104,6 +119,8 @@ export default function App() {
     );
 
   };
+
+  //Todo added with length check
   const submitHandler = (text) => {
     if (text.length > 4) {
       const newTodos = [{
@@ -188,7 +205,7 @@ export default function App() {
           <FlatList
             data={todos}
             renderItem={({ item }) => (
-              <Todos item={item} setTodos={setTodos} doneHandler={doneHandler} />
+              <Todos item={item} ManagePartOfCrud={ManagePartOfCrud} />
             )}
           />
 

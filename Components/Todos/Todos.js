@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View,StyleSheet,TouchableOpacity } from 'react-native';
 
-const Todos = ({item,doneHandler,setTodos}) => {
+const Todos = ({item,ManagePartOfCrud}) => {
 
 
     return (
-        <TouchableOpacity onPress={()=>doneHandler(item) }>
+        <TouchableOpacity onPress={()=>ManagePartOfCrud(item) }>
             <Text style = {styles.list}>{item.text}</Text>
         </TouchableOpacity>
     );
