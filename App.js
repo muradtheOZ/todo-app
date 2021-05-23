@@ -13,7 +13,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const initialTodos = []
   const [todos, setTodos] = useState(initialTodos);
-  const [completed, setCompleted] = useState(null);
+  const [completed, setCompleted] = useState([]);
   const[text,setText] = useState("");
   const[clickedKey, setClickedKey] = useState("")
 
