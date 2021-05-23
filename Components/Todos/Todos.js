@@ -5,7 +5,7 @@ const Todos = ({item,doneHandler,setTodos}) => {
 
 
     return (
-        <TouchableOpacity onPress={()=>doneHandler(item.key) }>
+        <TouchableOpacity onPress={()=>doneHandler(item) }>
             <Text style = {styles.list}>{item.text}</Text>
         </TouchableOpacity>
     );
