@@ -6,4 +6,5 @@ ___
 - add your new todo
 - delete todo
 - mark todo as completed
+- update will be implemented shortly
 
